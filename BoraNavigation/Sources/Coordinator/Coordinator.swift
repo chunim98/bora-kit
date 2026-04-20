@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 /// 앱의 네비게이션 흐름을 제어하는 기본 단위
 open class Coordinator: NSObject {
@@ -19,14 +18,9 @@ open class Coordinator: NSObject {
     
     /// 화면 전환을 수행할 내비게이션 컨트롤러
     public let navigation: UINavigationController
-    
-    /// Combine 구독 생명주기 보관소
-    public var cancellables = Set<AnyCancellable>()
-    
-    // MARK: Subjects
-    
-    /// 코디네이터 종료 이벤트 서브젝트 (출력)
-    private let didFinishSubject = PassthroughSubject<Void, Never>()
+        
+    /// 코디네이터 종료 이벤트 델리게이트
+    public weak var parent: ParentCoordinator?
     
     // MARK: Life Cycle
     
@@ -51,16 +45,6 @@ open class Coordinator: NSObject {
     
     /// 코디네이터 종료 이벤트 외부(부모)에 전달
     public func finish() {
-        didFinishSubject.send(())
-    }
-}
-
-// MARK: Combine Interface
-
-extension Coordinator {
-    /// 코디네이터 종료 이벤트 스트림
-    /// - 부모에서 이 이벤트를 구독해서 자식을 정리
-    public var didFinishPublisher: AnyPublisher<Void, Never> {
-        didFinishSubject.eraseToAnyPublisher()
+        parent?.didFinish()
     }
 }

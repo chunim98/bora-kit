@@ -1,0 +1,15 @@
+{
+  "originHash" : "02c2ddba7142e25191268c12a527e737422c71bcb604698455d6ab116f69673f",
+  "pins" : [
+    {
+      "identity" : "combinecocoa",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CombineCommunity/CombineCocoa.git",
+      "state" : {
+        "revision" : "7300c75ff9e072aa7fd0fccefcc88f74aae9bf56",
+        "version" : "0.4.1"
+      }
+    }
+  ],
+  "version" : 3
+}
