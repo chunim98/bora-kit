@@ -22,7 +22,10 @@ public class TabContainerVC: UIViewController {
     // MARK: Transition
     
     /// 주어진 뷰 컨트롤러로 화면 전환
-    public func transition(to newVC: UIViewController) {
+    public func transition(
+        to newVC: UIViewController,
+        completion: (() -> Void)?
+    ) {
         // 동일 뷰 컨트롤러 이동이거나 이미 전환 중이면 요청 무시
         guard preVC !== newVC, !isTransitioning else { return }
         
@@ -51,7 +54,7 @@ public class TabContainerVC: UIViewController {
         
         // 4. 전환 애니메이션 실행
         UIView.animate(
-            withDuration: 0.15,
+            withDuration: 0.16,
             delay: 0,
             options: [.curveEaseOut]
         ) {
@@ -67,6 +70,9 @@ public class TabContainerVC: UIViewController {
             // 6. 상태 업데이트 및 완료
             self?.preVC = newVC
             self?.isTransitioning = false
+            
+            // 7. 완료 핸들러 실행
+            completion?()
         }
     }
 }

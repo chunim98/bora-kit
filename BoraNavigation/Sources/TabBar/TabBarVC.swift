@@ -20,7 +20,7 @@ class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     
     /// 현재 탭 인덱스
     @Published var currentTabIndex = 0
-        
+    
     // MARK: Components
     
     /// 각 탭을 구성하는 뷰 컨트롤러 배열
@@ -34,10 +34,9 @@ class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     
     // MARK: Life Cycle
     
-    // 나중에 Configuration 만들어서,
-    // 뷰컨이랑 버튼을 한 쌍으로 초기화하도록 묶어줄 필요는 있을 듯..
     init(viewControllers: [UIViewController]) {
         self.viewControllers = viewControllers
+        self.tabBar = TabBar(items: viewControllers.map(\.tabBarItem))
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -80,15 +79,20 @@ class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     // MARK: Bindings
     
     private func setupBindings() {
-        
-        /// 현재 탭 인덱스 상태에 따라 탭바의 UI 갱신
+        // 주어진 탭 인덱스로 화면 전환 및 탭 바 UI 갱신
         $currentTabIndex
             .sink { [weak self] index in
-                self?.viewControllers[safe: index].map {
-                    self?.tabContainerVC.transition(to: $0)
+                guard let nextVC = self?.viewControllers[safe: index]
+                else { return }
+                
+                self?.tabContainerVC.transition(to: nextVC) {
+                    self?.tabBar.updateUI(index)
                 }
-//                self?.tabBar.updateUI(with: $0)
             }
             .store(in: &cancellables)
+        
+        // 선택한 탭 인덱스를 현재 인덱스에 할당
+        tabBar.selectedTabIndexPublisher
+            .assign(to: &$currentTabIndex)
     }
 }
