@@ -1,6 +1,6 @@
 //
 //  UITextView+Combine.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 7/5/25.
 //
@@ -10,7 +10,7 @@ import UIKit
 
 extension UITextView {
     /// 작성 시작 퍼블리셔
-    var didBeginEditingPublisher: AnyPublisher<Void, Never> {
+    public var didBeginEditingPublisher: AnyPublisher<Void, Never> {
         NotificationCenter.default.publisher(
             for: UITextView.textDidBeginEditingNotification,
             object: self
@@ -20,7 +20,7 @@ extension UITextView {
     }
     
     /// 작성 종료 퍼블리셔
-    var didEndEditingPublisher: AnyPublisher<Void, Never> {
+    public var didEndEditingPublisher: AnyPublisher<Void, Never> {
         NotificationCenter.default.publisher(
             for: UITextView.textDidEndEditingNotification,
             object: self

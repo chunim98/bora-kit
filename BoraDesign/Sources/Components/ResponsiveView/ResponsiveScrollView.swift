@@ -1,6 +1,6 @@
 //
 //  ResponsiveScrollView.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 11/26/25.
 //

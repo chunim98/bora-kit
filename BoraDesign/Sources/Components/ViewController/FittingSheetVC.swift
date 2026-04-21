@@ -1,6 +1,6 @@
 //
 //  FittingSheetVC.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 3/27/26.
 //

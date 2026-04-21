@@ -1,6 +1,6 @@
 //
 //  UISpacer.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 3/16/26.
 //

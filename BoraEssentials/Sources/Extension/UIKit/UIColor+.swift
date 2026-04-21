@@ -1,6 +1,6 @@
 //
 //  UIColor+.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 11/14/25.
 //

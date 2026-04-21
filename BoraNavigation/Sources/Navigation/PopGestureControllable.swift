@@ -1,6 +1,6 @@
 //
 //  PopGestureControllable.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 3/9/26.
 //

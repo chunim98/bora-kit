@@ -24,11 +24,15 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", from: "0.4.1")
+        .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", from: "0.4.1"),
+        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
     ],
     targets: [
         .target(
             name: "BoraEssentials",
+            dependencies: [
+                .product(name: "CombineCocoa", package: "CombineCocoa"),
+            ],
             path: "BoraEssentials/Sources"
         ),
         .target(
@@ -38,7 +42,9 @@ let package = Package(
         ),
         .target(
             name: "BoraNavigation",
-            dependencies: ["BoraEssentials"],
+            dependencies: [
+                .product(name: "SnapKit", package: "SnapKit")
+            ],
             path: "BoraNavigation/Sources"
         ),
         .target(

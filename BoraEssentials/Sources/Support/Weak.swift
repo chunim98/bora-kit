@@ -1,6 +1,6 @@
 //
 //  Weak.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 1/13/26.
 //

@@ -1,6 +1,6 @@
 //
 //  ToggleAttributedButton.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 3/25/26.
 //

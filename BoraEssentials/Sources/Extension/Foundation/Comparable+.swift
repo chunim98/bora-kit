@@ -1,6 +1,6 @@
 //
 //  Comparable+.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 5/28/25.
 //

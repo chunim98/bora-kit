@@ -1,6 +1,6 @@
 //
 //  Storage.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 12/11/25.
 //

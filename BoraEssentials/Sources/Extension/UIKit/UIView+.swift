@@ -1,6 +1,6 @@
 //
 //  UIView+.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 1/8/26.
 //

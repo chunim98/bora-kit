@@ -2,152 +2,71 @@
 //  TabContainerVC.swift
 //  BoraKit
 //
-//  Created by 신정욱 on 4/21/26.
+//  Created by 신정욱 on 12/3/25.
 //
 
 import UIKit
-import Combine
 
-/// 여러 자식 뷰컨트롤러 중 하나를 선택해 보여주는 탭 컨테이너
-public final class TabContainerVC: UIViewController {
+import SnapKit
+
+public class TabContainerVC: UIViewController {
     
     // MARK: Properties
     
-    private let viewControllers: [UIViewController]
-    private let contentView = UIView()
+    /// 현재 화면에 보여지는 뷰 컨트롤러 (상태 관리용)
+    private weak var preVC: UIViewController?
     
-    @Published public private(set) var currentIndex: Int
+    /// 화면 전환 중 여부 (중복 요청 방지용)
+    private var isTransitioning = false
     
-    public var currentViewController: UIViewController {
-        viewControllers[currentIndex]
-    }
+    // MARK: Transition
     
-    public var currentIndexPublisher: AnyPublisher<Int, Never> {
-        $currentIndex.eraseToAnyPublisher()
-    }
-    
-    // MARK: Life Cycle
-    
-    public init(
-        viewControllers: [UIViewController],
-        initialIndex: Int = 0
-    ) {
-        precondition(!viewControllers.isEmpty, "viewControllers must not be empty.")
-        precondition(viewControllers.indices.contains(initialIndex), "initialIndex is out of range.")
+    /// 주어진 뷰 컨트롤러로 화면 전환
+    public func transition(to newVC: UIViewController) {
+        // 동일 뷰 컨트롤러 이동이거나 이미 전환 중이면 요청 무시
+        guard preVC !== newVC, !isTransitioning else { return }
         
-        self.viewControllers = viewControllers
-        self.currentIndex = initialIndex
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        setupLayout()
-        loadInitialViewController()
-    }
-    
-    // MARK: Layout
-    
-    private func setupLayout() {
-        view.addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
+        // 전환 상태 갱신
+        isTransitioning = true
         
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    // MARK: Selection
-    
-    public func selectTab(
-        at index: Int,
-        animated: Bool = true
-    ) {
-        guard viewControllers.indices.contains(index) else { return }
-        guard currentIndex != index else { return }
+        // 1. 새 뷰컨트롤러 추가 및 레이아웃 설정
+        addChild(newVC)
+        view.addSubview(newVC.view)
+        newVC.view.snp.makeConstraints { $0.edges.equalToSuperview() }
+        newVC.didMove(toParent: self)
         
-        let previousIndex = currentIndex
-        currentIndex = index
+        newVC.view.isUserInteractionEnabled = true
         
-        guard isViewLoaded else { return }
-        
-        transition(
-            from: viewControllers[previousIndex],
-            to: viewControllers[index],
-            animated: animated
-        )
-    }
-}
-
-// MARK: - Transition
-
-private extension TabContainerVC {
-    func loadInitialViewController() {
-        let viewController = currentViewController
-        
-        addChild(viewController)
-        contentView.addSubview(viewController.view)
-        setupContentLayout(for: viewController.view)
-        viewController.didMove(toParent: self)
-    }
-    
-    func transition(
-        from previousViewController: UIViewController,
-        to nextViewController: UIViewController,
-        animated: Bool
-    ) {
-        previousViewController.view.isUserInteractionEnabled = false
-        
-        addChild(nextViewController)
-        contentView.addSubview(nextViewController.view)
-        setupContentLayout(for: nextViewController.view)
-        nextViewController.view.isUserInteractionEnabled = true
-        
-        previousViewController.willMove(toParent: nil)
-        
-        let animations = {
-            nextViewController.view.alpha = 1
-            nextViewController.view.transform = .identity
-        }
-        
-        let completion: (Bool) -> Void = { _ in
-            previousViewController.view.removeFromSuperview()
-            previousViewController.removeFromParent()
-            nextViewController.didMove(toParent: self)
-        }
-        
-        guard animated else {
-            completion(true)
+        // 2. 이전 뷰컨트롤러가 없는 경우(초기 세팅) 애니메이션 생략
+        if preVC == nil {
+            preVC = newVC
+            isTransitioning = false
             return
         }
         
-        nextViewController.view.alpha = 0
-        nextViewController.view.transform = CGAffineTransform(scaleX: 0.99, y: 0.99)
+        // 3. 전환 애니메이션 준비
+        preVC?.view.isUserInteractionEnabled = false
+        newVC.view.transform = CGAffineTransform(scaleX: 0.99, y: 0.99)
+        newVC.view.alpha = 0
         
+        // 4. 전환 애니메이션 실행
         UIView.animate(
             withDuration: 0.15,
             delay: 0,
-            options: [.curveEaseOut],
-            animations: animations,
-            completion: completion
-        )
-    }
-    
-    func setupContentLayout(for childView: UIView) {
-        childView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            childView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            childView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            childView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            childView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+            options: [.curveEaseOut]
+        ) {
+            newVC.view.transform = .identity
+            newVC.view.alpha = 1
+            
+        } completion: { [weak self] _ in
+            // 5. 이전 뷰컨트롤러 정리
+            self?.preVC?.willMove(toParent: nil)
+            self?.preVC?.view.removeFromSuperview()
+            self?.preVC?.removeFromParent()
+            
+            // 6. 상태 업데이트 및 완료
+            self?.preVC = newVC
+            self?.isTransitioning = false
+        }
     }
 }

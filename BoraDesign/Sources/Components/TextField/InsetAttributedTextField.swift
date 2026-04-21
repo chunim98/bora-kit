@@ -1,6 +1,6 @@
 //
 //  InsetAttributedTextField.swift
-//  BoraScaffold
+//  BoraKit
 //
 //  Created by 신정욱 on 4/8/26.
 //
