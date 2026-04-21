@@ -12,14 +12,14 @@ import SnapKit
 
 import BoraEssentials
 
-class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
+open class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     
     // MARK: Properties
     
     private var cancellables = Set<AnyCancellable>()
     
     /// 현재 탭 인덱스
-    @Published var currentTabIndex = 0
+    @Published public var currentTabIndex = 0
     
     // MARK: Components
     
@@ -34,17 +34,17 @@ class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     
     // MARK: Life Cycle
     
-    init(viewControllers: [UIViewController]) {
+    public init(viewControllers: [UIViewController]) {
         self.viewControllers = viewControllers
         self.tabBar = TabBar(items: viewControllers.map(\.tabBarItem))
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder: NSCoder) {
+    required public init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    open override func viewDidLoad() {
         super.viewDidLoad()
         setupDefaults()
         setupLayout()
