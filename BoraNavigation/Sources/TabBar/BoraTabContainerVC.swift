@@ -1,5 +1,5 @@
 //
-//  TabContainerVC.swift
+//  BoraTabContainerVC.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 12/3/25.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-public class TabContainerVC: UIViewController {
+public class BoraTabContainerVC: UIViewController {
     
     // MARK: Properties
     

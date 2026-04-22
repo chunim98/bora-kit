@@ -1,5 +1,5 @@
 //
-//  TabBarVC.swift
+//  BoraTabBarVC.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/22/26.
@@ -10,9 +10,9 @@ import Combine
 
 import SnapKit
 
-open class TabBarVC<TabBar: TabBarCompatible>:
+open class BoraTabBarVC<TabBar: BoraTabBarCompatible>:
     UITabBarController,
-    TabBarVCCompatible
+    BoraTabBarVCCompatible
 {
     
     // MARK: Properties
@@ -20,7 +20,7 @@ open class TabBarVC<TabBar: TabBarCompatible>:
     private var cancellables = Set<AnyCancellable>()
     
     /// 시스템 TabBar의 제약을 피하고 자유로운 애니메이션 구현을 위해 커스텀 객체 사용
-    public let mainTabBar: any TabBarCompatible = TabBar()
+    public let mainTabBar: any BoraTabBarCompatible = TabBar()
     
     // MARK: Life Cycle
     

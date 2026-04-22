@@ -34,9 +34,9 @@ extension BoraNavigationController: UIGestureRecognizerDelegate {
     public func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        // PopGesturePolicy 채택 VC면 해당 설정값으로 시작 여부를 결정
+        // BoraPopGesturePolicy 채택 VC면 해당 설정값으로 시작 여부를 결정
         guard let topVC = topViewController.flatMap({
-            $0 as? PopGesturePolicy
+            $0 as? BoraPopGesturePolicy
         }) else { return true }
         
         return topVC.gestureRecognizerShouldBegin()
@@ -52,11 +52,11 @@ extension BoraNavigationController: UINavigationControllerDelegate {
         willShow viewController: UIViewController,
         animated _: Bool
     ) {
-        let tabBarVC = viewController.tabBarController as? TabBarVCCompatible
+        let tabBarVC = viewController.tabBarController as? BoraTabBarVCCompatible
         
         // 스택 안에 탭바 숨김 화면이 하나라도 남아있으면, 아직 탭바를 노출하지 않음
         let shouldHide = navigationController.viewControllers.contains {
-            ($0 as? TabBarVisibilityPolicy)?.shouldTabBarHide == true
+            ($0 as? BoraTabBarVisibilityPolicy)?.shouldTabBarHide == true
         }
         
         tabBarVC?.mainTabBar.setHidden(

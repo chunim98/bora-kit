@@ -1,5 +1,5 @@
 //
-//  TabBarCompatible.swift
+//  BoraTabBarCompatible.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/21/26.
@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-public protocol TabBarCompatible: UIView {
+public protocol BoraTabBarCompatible: UIView {
     
     // MARK: Properties
     
@@ -40,7 +40,7 @@ public protocol TabBarCompatible: UIView {
 
 // MARK: Default Implementation
 
-extension TabBarCompatible {
+extension BoraTabBarCompatible {
     /// 탭바의 숨김 상태를 갱신
     public func setHidden(
         _ hidden: Bool,
