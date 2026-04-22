@@ -36,7 +36,7 @@ open class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
     
     public init(viewControllers: [UIViewController]) {
         self.viewControllers = viewControllers
-        self.tabBar = TabBar(items: viewControllers.map(\.tabBarItem))
+        self.tabBar = TabBar()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,7 +92,7 @@ open class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
             .store(in: &cancellables)
         
         // 선택한 탭 인덱스를 현재 인덱스에 할당
-        tabBar.selectedTabIndexPublisher
-            .assign(to: &$currentTabIndex)
+//        tabBar.selectedTabIndexPublisher
+//            .assign(to: &$currentTabIndex)
     }
 }
