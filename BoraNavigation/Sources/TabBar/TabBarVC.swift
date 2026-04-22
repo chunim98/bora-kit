@@ -2,7 +2,7 @@
 //  TabBarVC.swift
 //  BoraKit
 //
-//  Created by 신정욱 on 4/21/26.
+//  Created by 신정욱 on 4/22/26.
 //
 
 import UIKit
@@ -10,89 +10,66 @@ import Combine
 
 import SnapKit
 
-import BoraEssentials
-
-open class TabBarVC<TabBar: TabBarCompatible>: UIViewController {
+open class TabBarVC<TabBar: TabBarCompatible>:
+    UITabBarController,
+    TabBarVCCompatible
+{
     
     // MARK: Properties
     
     private var cancellables = Set<AnyCancellable>()
     
-    /// 현재 탭 인덱스
-    @Published public var currentTabIndex = 0
-    
-    // MARK: Components
-    
-    /// 각 탭을 구성하는 뷰 컨트롤러 배열
-    private let viewControllers: [UIViewController]
-    
-    /// 각 탭의 컨텐츠가 담기는 뷰 컨트롤러
-    private let tabContainerVC = TabContainerVC()
-    
-    /// 하단 탭 바
-    private let tabBar: TabBar
+    /// 시스템 TabBar의 제약을 피하고 자유로운 애니메이션 구현을 위해 커스텀 객체 사용
+    public let mainTabBar: any TabBarCompatible = TabBar()
     
     // MARK: Life Cycle
     
-    public init(viewControllers: [UIViewController]) {
-        self.viewControllers = viewControllers
-        self.tabBar = TabBar()
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     open override func viewDidLoad() {
         super.viewDidLoad()
-        setupDefaults()
         setupLayout()
         setupBindings()
     }
     
-    // MARK: Defaults
-    
-    private func setupDefaults() {
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 네비게이션바 및 탭바 항상 숨기기
         navigationController?.navigationBar.isHidden = true
+        tabBar.isHidden = true
     }
     
     // MARK: Layout
     
     private func setupLayout() {
-        addChild(tabContainerVC)
+        view.addSubview(mainTabBar)
         
-        view.addSubview(tabContainerVC.view)
-        view.addSubview(tabBar)
-        
-        tabContainerVC.view.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        mainTabBar.snp.makeConstraints {
+            // 하단 Safe Area 영역까지 포함하여 배경색이 채워지도록 설정
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(TabBar.height)
+            $0.horizontalEdges.bottom.equalToSuperview()
         }
-        tabBar.snp.makeConstraints {
-            $0.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(TabBar.height)
-        }
-        
-        tabContainerVC.didMove(toParent: self)
     }
     
     // MARK: Bindings
     
     private func setupBindings() {
-        // 주어진 탭 인덱스로 화면 전환 및 탭 바 UI 갱신
-        $currentTabIndex
-            .sink { [weak self] index in
-                guard let nextVC = self?.viewControllers[safe: index]
-                else { return }
-                
-                self?.tabContainerVC.transition(to: nextVC) {
-                    self?.tabBar.updateUI(index)
-                }
-            }
+        // 현재 탭 인덱스로 탭바 UI 갱신
+        publisher(for: \.selectedIndex)
+            .sink { [weak self] in self?.mainTabBar.updateUI($0) }
             .store(in: &cancellables)
         
-        // 선택한 탭 인덱스를 현재 인덱스에 할당
-//        tabBar.selectedTabIndexPublisher
-//            .assign(to: &$currentTabIndex)
+        // 선택한 탭 인덱스 상태를 갱신
+        mainTabBar.selectedIndexPublisher
+            .sink { [weak self] in self?.selectedIndex = $0 }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: Public Methods
+    
+    open override func setViewControllers(
+        _ viewControllers: [UIViewController]?,
+        animated: Bool
+    ) {
+        super.setViewControllers(viewControllers, animated: animated)
+        mainTabBar.setItems(viewControllers?.map(\.tabBarItem))
     }
 }

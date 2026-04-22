@@ -7,8 +7,6 @@
 
 import UIKit
 
-/// 뷰 컨트롤러별 Pop 제스처 활성화 여부를 제어할 수 있는 네비게이션 컨트롤러
-/// - Important: `topViewController`가 ``PopGesturePolicy``을 채택한 경우에만 제어가 적용됨
 public final class BoraNavigationController: UINavigationController {
     
     // MARK: Life Cycle
@@ -52,13 +50,18 @@ extension BoraNavigationController: UINavigationControllerDelegate {
     public func navigationController(
         _ navigationController: UINavigationController,
         willShow viewController: UIViewController,
-        animated: Bool
+        animated _: Bool
     ) {
-        (viewController.tabBarController as? TabBarControllerCompatible)?
-            .tabBarVisibilityCoordinator.updateVisibility(
-                for: viewController,
-                animated: animated,
-                alongside: navigationController.transitionCoordinator
-            )
+        let tabBarVC = viewController.tabBarController as? TabBarVCCompatible
+        
+        // 스택 안에 탭바 숨김 화면이 하나라도 남아있으면, 아직 탭바를 노출하지 않음
+        let shouldHide = navigationController.viewControllers.contains {
+            ($0 as? TabBarVisibilityPolicy)?.shouldTabBarHide == true
+        }
+        
+        tabBarVC?.mainTabBar.setHidden(
+            shouldHide,
+            transitionCoordinator: navigationController.transitionCoordinator
+        )
     }
 }
