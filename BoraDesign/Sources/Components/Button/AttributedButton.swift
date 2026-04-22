@@ -42,12 +42,18 @@ open class AttributedButton: UIButton {
     
     open override func updateConfiguration() {
         super.updateConfiguration()
-        guard var configuration, let title else { return }
+        guard var configuration else { return }
         
-        configuration.attributedTitle = AttributedString(
-            title,
-            attributes: defaultTitleAttributes ?? .init()
-        )
+        if let title {
+            configuration.attributedTitle = AttributedString(
+                title, attributes: defaultTitleAttributes ?? .init()
+            )
+            
+        } else {
+            // title이 nil일 경우 기존 텍스트 초기화
+            configuration.attributedTitle = nil
+            configuration.title = nil
+        }
         
         self.configuration = configuration
     }
