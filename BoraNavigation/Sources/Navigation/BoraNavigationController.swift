@@ -48,20 +48,17 @@ extension BoraNavigationController: UIGestureRecognizerDelegate {
 // MARK: UINavigationControllerDelegate
 
 extension BoraNavigationController: UINavigationControllerDelegate {
-    /// 네비게이션 트랜지션 시점에 스택의 정책을 확인하여 바텀 바 상태 결정
+    /// 네비게이션 트랜지션 시점에 표시될 화면의 정책을 기준으로 바텀 바 상태 결정
     public func navigationController(
         _ navigationController: UINavigationController,
         willShow viewController: UIViewController,
         animated: Bool
     ) {
-        // 현재 네비게이션 스택에 숨김 정책이 true인 뷰컨트롤러가 존재하는지 검사
-        let shouldHide = viewControllers.contains {
-            ($0 as? TabBarVisibilityPolicy)?.shouldTabBarHide == true
-        }
-        
-        (viewController.tabBarController as? TabBarControllerCompatible)?.mainTabBar.setVisible(
-            !shouldHide,
-            alongside: navigationController.transitionCoordinator
-        )
+        (viewController.tabBarController as? TabBarControllerCompatible)?
+            .tabBarVisibilityCoordinator.updateVisibility(
+                for: viewController,
+                animated: animated,
+                alongside: navigationController.transitionCoordinator
+            )
     }
 }

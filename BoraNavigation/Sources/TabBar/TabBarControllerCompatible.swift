@@ -11,4 +11,7 @@ import UIKit
 public protocol TabBarControllerCompatible: UIViewController {
     /// 시스템 TabBar의 제약을 피하고 자유로운 애니메이션 구현을 위해 커스텀 객체 사용
     var mainTabBar: TabBarCompatible { get }
+    
+    /// 화면 전환에 따른 커스텀 탭바 표시 상태 조율 객체
+    var tabBarVisibilityCoordinator: TabBarVisibilityCoordinator { get }
 }

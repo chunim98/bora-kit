@@ -26,13 +26,16 @@ public protocol TabBarCompatible: UIView {
     /// 탭바의 표시/숨김 상태를 애니메이션과 함께 갱신
     func setVisible(_ visible: Bool)
     
+    /// 탭바의 표시/숨김 상태를 애니메이션 여부에 따라 갱신
+    func setVisible(_ visible: Bool, animated: Bool)
+    
     /// 탭바의 표시/숨김 상태를 화면 전환 애니메이션과 함께 갱신
     func setVisible(
         _ visible: Bool,
         alongside coordinator: UIViewControllerTransitionCoordinator?
     )
     
-    // MARK: Combine Interface
+    // MARK: Publishers
     
     /// 선택한 탭 인덱스 퍼블리셔
     var selectedIndexPublisher: AnyPublisher<Int, Never> { get }
@@ -43,7 +46,18 @@ public protocol TabBarCompatible: UIView {
 extension TabBarCompatible {
     /// 탭바의 표시/숨김 상태를 애니메이션과 함께 갱신
     public func setVisible(_ visible: Bool) {
-        setVisible(visible, alongside: nil)
+        setVisible(visible, animated: true)
+    }
+    
+    /// 탭바의 표시/숨김 상태를 애니메이션 여부에 따라 갱신
+    public func setVisible(_ visible: Bool, animated: Bool) {
+        guard animated else {
+            applyVisibility(visible)
+            isUserInteractionEnabled = visible
+            return
+        }
+        
+        animateVisibility(visible)
     }
     
     /// 탭바의 표시/숨김 상태를 화면 전환 애니메이션과 함께 갱신
@@ -51,11 +65,8 @@ extension TabBarCompatible {
         _ visible: Bool,
         alongside coordinator: UIViewControllerTransitionCoordinator?
     ) {
-        // 숨김 상태일 경우, 사용자 터치를 막아서 오작동을 방지
-        isUserInteractionEnabled = visible
-        
         guard let coordinator else {
-            animateVisibility(visible)
+            setVisible(visible)
             return
         }
         
@@ -65,13 +76,17 @@ extension TabBarCompatible {
     }
     
     private func animateVisibility(_ visible: Bool) {
+        isUserInteractionEnabled = false
+        
         // 슬라이드(transform) 및 페이드(alpha) 애니메이션 적용
         UIView.animate(
             withDuration: 0.32,
             delay: 0,
-            options: [.curveEaseInOut, .beginFromCurrentState, .allowUserInteraction]
+            options: [.curveEaseInOut, .beginFromCurrentState]
         ) { [weak self] in
             self?.applyVisibility(visible)
+        } completion: { [weak self] _ in
+            self?.isUserInteractionEnabled = visible
         }
     }
     
