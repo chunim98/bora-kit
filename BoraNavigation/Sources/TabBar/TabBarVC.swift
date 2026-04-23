@@ -14,7 +14,7 @@ open class TabBarVC<TabBar: MainTabBar>: UITabBarController, MainTabBarOwner {
     // MARK: Properties
     
     /// 시스템 TabBar의 제약을 피하고 자유로운 애니메이션 구현을 위해 커스텀 객체 사용
-    public let mainTabBar: any MainTabBar = TabBar()
+    public let mainTabBar = TabBar()
     
     // MARK: Life Cycle
     
@@ -25,7 +25,8 @@ open class TabBarVC<TabBar: MainTabBar>: UITabBarController, MainTabBarOwner {
     
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // 네이티브 탭바 항상 숨기기
+        // 네비게이션바 및 네이티브 탭바 항상 숨기기
+        navigationController?.navigationBar.isHidden = true
         tabBar.isHidden = true
     }
     

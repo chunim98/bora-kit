@@ -9,6 +9,9 @@ import UIKit
 
 /// 메인 탭바를 구현한 탭바 컨트롤러 타입 프로토콜
 protocol MainTabBarOwner: UITabBarController {
+    
+    associatedtype TabBar: MainTabBar
+    
     /// 시스템 탭바의 제약을 피하고 자유로운 구현을 위해 커스텀 객체 사용
-    var mainTabBar: any MainTabBar { get }
+    var mainTabBar: TabBar { get }
 }

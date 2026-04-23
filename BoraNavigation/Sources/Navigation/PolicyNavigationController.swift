@@ -52,7 +52,7 @@ extension PolicyNavigationController: UINavigationControllerDelegate {
         willShow viewController: UIViewController,
         animated _: Bool
     ) {
-        let tabBarVC = viewController.tabBarController as? MainTabBarOwner
+        let tabBarVC = viewController.tabBarController as? (any MainTabBarOwner)
         
         // 스택 안에 탭바 숨김 화면이 하나라도 남아있으면, 아직 탭바를 노출하지 않음
         let shouldHide = navigationController.viewControllers.contains {
