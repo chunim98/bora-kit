@@ -10,7 +10,7 @@ import Combine
 
 import CombineCocoa
 
-import BoraNavigation
+import NavigationSupport
 
 final class CoordinatorDelegateProxy: DelegateProxy {}
 
@@ -28,10 +28,10 @@ extension CoordinatorDelegateProxy: DelegateProxyType {
 // MARK: ParentCoordinator
 
 extension CoordinatorDelegateProxy: ParentCoordinator {
-    func didFinish() {
+    func coordinatorDidFinish(_ child: Coordinator) {
         interceptedSelector(
-            #selector(ParentCoordinator.didFinish),
-            arguments: []
+            #selector(ParentCoordinator.coordinatorDidFinish(_:)),
+            arguments: [child]
         )
     }
 }

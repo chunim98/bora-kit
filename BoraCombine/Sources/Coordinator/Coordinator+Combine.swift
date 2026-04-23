@@ -7,7 +7,7 @@
 
 import Combine
 
-import BoraNavigation
+import NavigationSupport
 
 extension Coordinator {
     /// 델리게이트 프록시
@@ -19,9 +19,9 @@ extension Coordinator {
     /// - 부모에서 이 이벤트를 구독해서 자식을 정리
     public var didFinishPublisher: AnyPublisher<Void, Never> {
         delegateProxy.interceptSelectorPublisher(
-            #selector(ParentCoordinator.didFinish)
+            #selector(ParentCoordinator.coordinatorDidFinish(_:))
         )
-        .map { _ in () }
+        .map { _ in }
         .eraseToAnyPublisher()
     }
 }

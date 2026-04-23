@@ -1,5 +1,5 @@
 //
-//  MainTabBarOwner.swift
+//  MainTabBarContaining.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/22/26.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// 메인 탭바를 구현한 탭바 컨트롤러 타입 프로토콜
-protocol MainTabBarOwner: UITabBarController {
+protocol MainTabBarContaining: UITabBarController {
     
     associatedtype TabBar: MainTabBar
     

@@ -45,6 +45,6 @@ open class Coordinator: NSObject {
     
     /// 코디네이터 종료 이벤트 외부(부모)에 전달
     public func finish() {
-        parent?.didFinish()
+        parent?.coordinatorDidFinish(self)
     }
 }

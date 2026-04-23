@@ -15,8 +15,8 @@ let package = Package(
             targets: ["BoraDesign"]
         ),
         .library(
-            name: "BoraNavigation",
-            targets: ["BoraNavigation"]
+            name: "NavigationSupport",
+            targets: ["NavigationSupport"]
         ),
         .library(
             name: "BoraCombine",
@@ -41,13 +41,13 @@ let package = Package(
             path: "BoraDesign/Sources"
         ),
         .target(
-            name: "BoraNavigation",
-            path: "BoraNavigation/Sources"
+            name: "NavigationSupport",
+            path: "NavigationSupport/Sources"
         ),
         .target(
             name: "BoraCombine",
             dependencies: [
-                "BoraNavigation",
+                "NavigationSupport",
                 .product(name: "CombineCocoa", package: "CombineCocoa")
             ],
             path: "BoraCombine/Sources"
