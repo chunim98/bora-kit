@@ -1,5 +1,5 @@
 //
-//  BoraNavigationController.swift
+//  PolicyNavigationController.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 3/6/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-public final class BoraNavigationController: UINavigationController {
+open class PolicyNavigationController: UINavigationController {
     
     // MARK: Life Cycle
     
@@ -29,14 +29,14 @@ public final class BoraNavigationController: UINavigationController {
 
 // MARK: UIGestureRecognizerDelegate
 
-extension BoraNavigationController: UIGestureRecognizerDelegate {
+extension PolicyNavigationController: UIGestureRecognizerDelegate {
     /// 실제로 시작되기 직전에 호출돼서, 시작 여부를 결정
-    public func gestureRecognizerShouldBegin(
+    open func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
     ) -> Bool {
-        // BoraPopGesturePolicy 채택 VC면 해당 설정값으로 시작 여부를 결정
+        // PopGesturePolicyHosting 채택 VC면 해당 설정값으로 시작 여부를 결정
         guard let topVC = topViewController.flatMap({
-            $0 as? BoraPopGesturePolicy
+            $0 as? PopGesturePolicyHosting
         }) else { return true }
         
         return topVC.gestureRecognizerShouldBegin()
@@ -45,18 +45,18 @@ extension BoraNavigationController: UIGestureRecognizerDelegate {
 
 // MARK: UINavigationControllerDelegate
 
-extension BoraNavigationController: UINavigationControllerDelegate {
+extension PolicyNavigationController: UINavigationControllerDelegate {
     /// 네비게이션 트랜지션 시점에 표시될 화면의 정책을 기준으로 바텀 바 상태 결정
-    public func navigationController(
+    open func navigationController(
         _ navigationController: UINavigationController,
         willShow viewController: UIViewController,
         animated _: Bool
     ) {
-        let tabBarVC = viewController.tabBarController as? BoraTabBarVCCompatible
+        let tabBarVC = viewController.tabBarController as? MainTabBarOwner
         
         // 스택 안에 탭바 숨김 화면이 하나라도 남아있으면, 아직 탭바를 노출하지 않음
         let shouldHide = navigationController.viewControllers.contains {
-            ($0 as? BoraTabBarVisibilityPolicy)?.shouldTabBarHide == true
+            ($0 as? MainTabBarPolicyHosting)?.hidesMainTabBarWhenPushed == true
         }
         
         tabBarVC?.mainTabBar.setHidden(

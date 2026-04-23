@@ -9,7 +9,7 @@ import Combine
 
 import BoraNavigation
 
-extension BoraCoordinator {
+extension Coordinator {
     /// 델리게이트 프록시
     var delegateProxy: CoordinatorDelegateProxy {
         CoordinatorDelegateProxy.createDelegateProxy(for: self)
@@ -19,7 +19,7 @@ extension BoraCoordinator {
     /// - 부모에서 이 이벤트를 구독해서 자식을 정리
     public var didFinishPublisher: AnyPublisher<Void, Never> {
         delegateProxy.interceptSelectorPublisher(
-            #selector(BoraParentCoordinator.didFinish)
+            #selector(ParentCoordinator.didFinish)
         )
         .map { _ in () }
         .eraseToAnyPublisher()

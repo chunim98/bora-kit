@@ -42,10 +42,6 @@ let package = Package(
         ),
         .target(
             name: "BoraNavigation",
-            dependencies: [
-                "BoraEssentials",
-                .product(name: "SnapKit", package: "SnapKit")
-            ],
             path: "BoraNavigation/Sources"
         ),
         .target(

@@ -1,48 +1,51 @@
 //
-//  BoraTabBarCompatible.swift
+//  MainTabBar.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/21/26.
 //
 
 import UIKit
-import Combine
 
-public protocol BoraTabBarCompatible: UIView {
-    
-    // MARK: Properties
-    
+/// 연관 객체의 키
+/// - Note:
+///   메모리 주소값만 포인터로 넘겨줄 뿐, 실행 중에 그 변수의 실제 값을 읽거나 쓰는 용도가 아님.
+///   따라서 동시성 검사를 예외 처리함
+fileprivate nonisolated(unsafe) var currentHiddenKey: UInt8 = 0
+
+public protocol MainTabBar: UIView {
     /// 탭바의 고정 높이
     static var height: CGFloat { get }
     
-    /// 전환 취소 시 복구 기준이 되는 마지막 확정 숨김 상태
-    var currentHidden: Bool { get set }
-    
-    // MARK: Public Methods
-    
     /// 주어진 탭바 아이템으로 버튼 구성
     func setItems(_ items: [UITabBarItem]?)
-    
-    /// 주어진 인덱스로 버튼 상태 업데이트
-    func updateUI(_ index: Int)
-    
-    /// 탭바의 숨김 상태를 갱신
-    func setHidden(
-        _ hidden: Bool,
-        transitionCoordinator: UIViewControllerTransitionCoordinator?
-    )
-    
-    // MARK: Publishers
-    
-    /// 선택한 탭 인덱스 퍼블리셔
-    var selectedIndexPublisher: AnyPublisher<Int, Never> { get }
 }
 
 // MARK: Default Implementation
 
-extension BoraTabBarCompatible {
+extension MainTabBar {
+    /// 전환 취소 시 복구 기준이 되는 마지막 확정 숨김 상태
+    private var currentHidden: Bool {
+        get {
+            // 저장된 숨김 상태가 없으면 기본값 false 사용
+            objc_getAssociatedObject(
+                self,
+                &currentHiddenKey
+            ) as? Bool ?? false
+        }
+        set {
+            // 현재 숨김 상태를 연관 객체에 저장
+            objc_setAssociatedObject(
+                self,
+                &currentHiddenKey,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN
+            )
+        }
+    }
+    
     /// 탭바의 숨김 상태를 갱신
-    public func setHidden(
+    func setHidden(
         _ hidden: Bool,
         transitionCoordinator: UIViewControllerTransitionCoordinator?
     ) {
