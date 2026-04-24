@@ -10,7 +10,7 @@ import Combine
 
 import CombineCocoa
 
-import NavigationSupport
+import Navigation
 
 final class CoordinatorDelegateProxy: DelegateProxy {}
 
@@ -18,9 +18,9 @@ final class CoordinatorDelegateProxy: DelegateProxy {}
 
 extension CoordinatorDelegateProxy: DelegateProxyType {
     
-    typealias Object = Coordinator
+    typealias Object = BaseCoordinator
     
-    func setDelegate(to object: Coordinator) {
+    func setDelegate(to object: BaseCoordinator) {
         object.parent = self
     }
 }
@@ -28,7 +28,7 @@ extension CoordinatorDelegateProxy: DelegateProxyType {
 // MARK: ParentCoordinator
 
 extension CoordinatorDelegateProxy: ParentCoordinator {
-    func coordinatorDidFinish(_ child: Coordinator) {
+    func coordinatorDidFinish(_ child: BaseCoordinator) {
         interceptedSelector(
             #selector(ParentCoordinator.coordinatorDidFinish(_:)),
             arguments: [child]

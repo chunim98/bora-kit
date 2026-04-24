@@ -7,8 +7,8 @@
 
 import UIKit
 
-import SnapKit
-
+/// 탭 컨테이너 뷰컨트롤러
+/// - Important: 실험적인 뷰컨트롤러로 검증중입니다.
 public class TabContainerVC: UIViewController {
     
     // MARK: Properties
@@ -35,7 +35,16 @@ public class TabContainerVC: UIViewController {
         // 1. 새 뷰컨트롤러 추가 및 레이아웃 설정
         addChild(newVC)
         view.addSubview(newVC.view)
-        newVC.view.snp.makeConstraints { $0.edges.equalToSuperview() }
+        
+        newVC.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            newVC.view.topAnchor.constraint(equalTo: view.topAnchor),
+            newVC.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            newVC.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            newVC.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
         newVC.didMove(toParent: self)
         
         newVC.view.isUserInteractionEnabled = true

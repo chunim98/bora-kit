@@ -1,5 +1,5 @@
 //
-//  MainTabBarController.swift
+//  BaseTabBarController.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/22/26.
@@ -9,7 +9,10 @@ import UIKit
 
 /// 메인 탭바(자체 커스텀 탭바)를 사용하는 탭바 컨트롤러
 /// - Important: 반드시 `setViewControllers(_:animated:)`를 사용해서 뷰컨트롤러를 구성해야 합니다!
-open class MainTabBarController<TabBar: MainTabBar>: UITabBarController, MainTabBarContaining {
+open class BaseTabBarController<TabBar: MainTabBar>:
+    UITabBarController,
+    MainTabBarContaining
+{
     
     // MARK: Properties
     

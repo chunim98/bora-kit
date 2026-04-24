@@ -1,5 +1,5 @@
 //
-//  Coordinator+Combine.swift
+//  BaseCoordinator+Combine.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/20/26.
@@ -7,9 +7,9 @@
 
 import Combine
 
-import NavigationSupport
+import Navigation
 
-extension Coordinator {
+extension BaseCoordinator {
     /// 델리게이트 프록시
     var delegateProxy: CoordinatorDelegateProxy {
         CoordinatorDelegateProxy.createDelegateProxy(for: self)

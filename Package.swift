@@ -15,17 +15,16 @@ let package = Package(
             targets: ["BoraDesign"]
         ),
         .library(
-            name: "NavigationSupport",
-            targets: ["NavigationSupport"]
+            name: "Navigation",
+            targets: ["Navigation"]
         ),
         .library(
-            name: "BoraCombine",
-            targets: ["BoraCombine"]
+            name: "CombineSupport",
+            targets: ["CombineSupport"]
         )
     ],
     dependencies: [
         .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", from: "0.4.1"),
-        .package(url: "https://github.com/SnapKit/SnapKit.git", .upToNextMajor(from: "5.0.1")),
     ],
     targets: [
         .target(
@@ -41,16 +40,16 @@ let package = Package(
             path: "BoraDesign/Sources"
         ),
         .target(
-            name: "NavigationSupport",
-            path: "NavigationSupport/Sources"
+            name: "Navigation",
+            path: "Navigation/Sources"
         ),
         .target(
-            name: "BoraCombine",
+            name: "CombineSupport",
             dependencies: [
-                "NavigationSupport",
+                "Navigation",
                 .product(name: "CombineCocoa", package: "CombineCocoa")
             ],
-            path: "BoraCombine/Sources"
+            path: "CombineSupport/Sources"
         )
     ]
 )

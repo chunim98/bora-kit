@@ -1,5 +1,5 @@
 //
-//  AppNavigationController.swift
+//  MainNavigationController.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 3/6/26.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class AppNavigationController: UINavigationController {
+open class MainNavigationController: UINavigationController {
     
     // MARK: Life Cycle
     
@@ -29,7 +29,7 @@ open class AppNavigationController: UINavigationController {
 
 // MARK: UIGestureRecognizerDelegate
 
-extension AppNavigationController: UIGestureRecognizerDelegate {
+extension MainNavigationController: UIGestureRecognizerDelegate {
     /// 실제로 시작되기 직전에 호출돼서, 시작 여부를 결정
     open func gestureRecognizerShouldBegin(
         _ gestureRecognizer: UIGestureRecognizer
@@ -45,7 +45,7 @@ extension AppNavigationController: UIGestureRecognizerDelegate {
 
 // MARK: UINavigationControllerDelegate
 
-extension AppNavigationController: UINavigationControllerDelegate {
+extension MainNavigationController: UINavigationControllerDelegate {
     /// 네비게이션 트랜지션 시점에 표시될 화면의 정책을 기준으로 바텀 바 상태 결정
     open func navigationController(
         _ navigationController: UINavigationController,
