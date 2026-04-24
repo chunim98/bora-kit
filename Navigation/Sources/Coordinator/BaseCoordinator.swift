@@ -17,14 +17,14 @@ open class BaseCoordinator: NSObject {
     public var children: [BaseCoordinator] = []
     
     /// 화면 전환을 수행할 내비게이션 컨트롤러
-    public let navigation: UINavigationController
+    public let navigation: MainNavigationController
         
     /// 코디네이터 종료 이벤트 델리게이트
     public weak var parent: ParentCoordinator?
     
     // MARK: Life Cycle
     
-    public init(navigation: UINavigationController) {
+    public init(navigation: MainNavigationController) {
         print("[\(type(of: self))] 시작")
         self.navigation = navigation
     }
