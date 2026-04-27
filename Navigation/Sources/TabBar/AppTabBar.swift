@@ -1,5 +1,5 @@
 //
-//  MainTabBar.swift
+//  AppTabBar.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/21/26.
@@ -13,7 +13,7 @@ import UIKit
 ///   따라서 동시성 검사를 예외 처리함
 fileprivate nonisolated(unsafe) var currentHiddenKey: UInt8 = 0
 
-public protocol MainTabBar: UIView {
+public protocol AppTabBar: UIView {
     /// 탭바의 고정 높이
     static var height: CGFloat { get }
     
@@ -23,7 +23,7 @@ public protocol MainTabBar: UIView {
 
 // MARK: Default Implementation
 
-extension MainTabBar {
+extension AppTabBar {
     /// 전환 취소 시 복구 기준이 되는 마지막 확정 숨김 상태
     private var currentHidden: Bool {
         get {

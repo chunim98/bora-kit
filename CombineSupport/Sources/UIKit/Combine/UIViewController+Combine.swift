@@ -10,14 +10,14 @@ import Combine
 
 /// UIViewController 생명주기 퍼블리셔 저장소
 private final class UIViewControllerLifecycleStorage {
-    let viewDidLoadSubject = PassthroughSubject<Void, Never>()
-    let viewWillAppearSubject = PassthroughSubject<Void, Never>()
-    let viewWillLayoutSubviewsSubject = PassthroughSubject<Void, Never>()
-    let viewDidLayoutSubviewsSubject = PassthroughSubject<Void, Never>()
-    let viewDidAppearSubject = PassthroughSubject<Void, Never>()
-    let viewWillDisappearSubject = PassthroughSubject<Void, Never>()
-    let viewDidDisappearSubject = PassthroughSubject<Void, Never>()
-    let deallocatedSubject = PassthroughSubject<Void, Never>()
+    let viewDidLoadSubject              = PassthroughSubject<Void, Never>()
+    let viewWillAppearSubject           = PassthroughSubject<Void, Never>()
+    let viewWillLayoutSubviewsSubject   = PassthroughSubject<Void, Never>()
+    let viewDidLayoutSubviewsSubject    = PassthroughSubject<Void, Never>()
+    let viewDidAppearSubject            = PassthroughSubject<Void, Never>()
+    let viewWillDisappearSubject        = PassthroughSubject<Void, Never>()
+    let viewDidDisappearSubject         = PassthroughSubject<Void, Never>()
+    let deallocatedSubject              = PassthroughSubject<Void, Never>()
     
     deinit {
         deallocatedSubject.send(())
