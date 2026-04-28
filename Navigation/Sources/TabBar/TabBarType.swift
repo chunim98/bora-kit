@@ -1,5 +1,5 @@
 //
-//  AppTabBar.swift
+//  TabBarType.swift
 //  Navigation
 //
 //  Created by 신정욱 on 4/21/26.
@@ -13,7 +13,7 @@ import UIKit
 ///   따라서 동시성 검사를 예외 처리함
 fileprivate nonisolated(unsafe) var currentHiddenKey: UInt8 = 0
 
-public protocol AppTabBar: UIView {
+public protocol TabBarType: UIView {
     /// 탭바의 고정 높이
     static var height: CGFloat { get }
     
@@ -23,7 +23,7 @@ public protocol AppTabBar: UIView {
 
 // MARK: Default Implementation
 
-extension AppTabBar {
+extension TabBarType {
     /// 전환 취소 시 복구 기준이 되는 마지막 확정 숨김 상태
     private var currentHidden: Bool {
         get {

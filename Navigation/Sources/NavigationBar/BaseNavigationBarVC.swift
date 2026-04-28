@@ -1,5 +1,5 @@
 //
-//  AppNavigationBarVC.swift
+//  BaseNavigationBarVC.swift
 //  Navigation
 //
 //  Created by 신정욱 on 4/24/26.
@@ -8,7 +8,7 @@
 import UIKit
 
 /// 커스텀 네비게이션 바 뷰 컨트롤러
-open class AppNavigationBarVC<NavigationBar: AppNavigationBar>: UIViewController {
+open class BaseNavigationBarVC<NavigationBar: NavigationBarType>: UIViewController {
     
     // MARK: Properties
     
@@ -18,7 +18,7 @@ open class AppNavigationBarVC<NavigationBar: AppNavigationBar>: UIViewController
     // MARK: Components
     
     /// 상단 네비게이션 바
-    public let appNavigationBar = NavigationBar()
+    public let defaultNavigationBar = NavigationBar()
     
     // MARK: Life Cycle
     
@@ -30,21 +30,21 @@ open class AppNavigationBarVC<NavigationBar: AppNavigationBar>: UIViewController
     // MARK: Layout
     
     private func setupLayout() {
-        view.addSubview(appNavigationBar)
+        view.addSubview(defaultNavigationBar)
         view.addLayoutGuide(contentLayoutGuide)
         
-        appNavigationBar.translatesAutoresizingMaskIntoConstraints = false
+        defaultNavigationBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            appNavigationBar.topAnchor.constraint(equalTo: view.topAnchor),
-            appNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            appNavigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            appNavigationBar.bottomAnchor.constraint(
+            defaultNavigationBar.topAnchor.constraint(equalTo: view.topAnchor),
+            defaultNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            defaultNavigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            defaultNavigationBar.bottomAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
                 constant: NavigationBar.height
             ),
             
-            contentLayoutGuide.topAnchor.constraint(equalTo: appNavigationBar.bottomAnchor),
+            contentLayoutGuide.topAnchor.constraint(equalTo: defaultNavigationBar.bottomAnchor),
             contentLayoutGuide.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentLayoutGuide.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             contentLayoutGuide.bottomAnchor.constraint(

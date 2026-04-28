@@ -21,6 +21,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "Navigation"),
+        .package(path: "StackLayout"),
         .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", from: "0.4.1"),
     ],
     targets: [
@@ -33,7 +34,10 @@ let package = Package(
         ),
         .target(
             name: "BoraDesign",
-            dependencies: ["BoraEssentials"],
+            dependencies: [
+                "BoraEssentials",
+                .product(name: "StackLayout", package: "StackLayout")
+            ],
             path: "BoraDesign/Sources"
         ),
         .target(

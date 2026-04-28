@@ -1,6 +1,6 @@
 //
 //  UIStackView+.swift
-//  BoraKit
+//  StackLayout
 //
 //  Created by 신정욱 on 11/14/25.
 //

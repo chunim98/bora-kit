@@ -19,7 +19,7 @@ extension Coordinator {
     /// - 부모에서 이 이벤트를 구독해서 자식을 정리
     public var didFinishPublisher: AnyPublisher<Void, Never> {
         delegateProxy.interceptSelectorPublisher(
-            #selector(ParentFlowCoordinator.coordinatorDidFinish(_:))
+            #selector(ParentCoordinator.coordinatorDidFinish(_:))
         )
         .map { _ in }
         .eraseToAnyPublisher()
