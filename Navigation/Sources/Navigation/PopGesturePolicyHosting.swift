@@ -1,6 +1,6 @@
 //
 //  PopGesturePolicyHosting.swift
-//  BoraKit
+//  Navigation
 //
 //  Created by 신정욱 on 3/9/26.
 //

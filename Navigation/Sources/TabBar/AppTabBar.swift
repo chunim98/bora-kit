@@ -1,6 +1,6 @@
 //
 //  AppTabBar.swift
-//  BoraKit
+//  Navigation
 //
 //  Created by 신정욱 on 4/21/26.
 //

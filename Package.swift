@@ -15,15 +15,12 @@ let package = Package(
             targets: ["BoraDesign"]
         ),
         .library(
-            name: "Navigation",
-            targets: ["Navigation"]
-        ),
-        .library(
             name: "CombineSupport",
             targets: ["CombineSupport"]
         )
     ],
     dependencies: [
+        .package(path: "Navigation"),
         .package(url: "https://github.com/CombineCommunity/CombineCocoa.git", from: "0.4.1"),
     ],
     targets: [
@@ -40,13 +37,9 @@ let package = Package(
             path: "BoraDesign/Sources"
         ),
         .target(
-            name: "Navigation",
-            path: "Navigation/Sources"
-        ),
-        .target(
             name: "CombineSupport",
             dependencies: [
-                "Navigation",
+                .product(name: "Navigation", package: "Navigation"),
                 .product(name: "CombineCocoa", package: "CombineCocoa")
             ],
             path: "CombineSupport/Sources"

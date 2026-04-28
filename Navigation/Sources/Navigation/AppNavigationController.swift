@@ -1,6 +1,6 @@
 //
 //  AppNavigationController.swift
-//  BoraKit
+//  Navigation
 //
 //  Created by 신정욱 on 3/6/26.
 //

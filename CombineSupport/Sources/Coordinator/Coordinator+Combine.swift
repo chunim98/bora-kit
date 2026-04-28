@@ -1,5 +1,5 @@
 //
-//  FlowCoordinator+Combine.swift
+//  Coordinator+Combine.swift
 //  BoraKit
 //
 //  Created by 신정욱 on 4/20/26.
@@ -9,7 +9,7 @@ import Combine
 
 import Navigation
 
-extension FlowCoordinator {
+extension Coordinator {
     /// 델리게이트 프록시
     var delegateProxy: CoordinatorDelegateProxy {
         CoordinatorDelegateProxy.createDelegateProxy(for: self)

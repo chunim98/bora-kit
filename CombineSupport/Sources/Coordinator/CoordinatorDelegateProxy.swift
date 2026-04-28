@@ -18,19 +18,19 @@ final class CoordinatorDelegateProxy: DelegateProxy {}
 
 extension CoordinatorDelegateProxy: DelegateProxyType {
     
-    typealias Object = FlowCoordinator
+    typealias Object = Coordinator
     
-    func setDelegate(to object: FlowCoordinator) {
+    func setDelegate(to object: Coordinator) {
         object.parent = self
     }
 }
 
-// MARK: ParentFlowCoordinator
+// MARK: ParentCoordinator
 
-extension CoordinatorDelegateProxy: ParentFlowCoordinator {
-    func coordinatorDidFinish(_ child: FlowCoordinator) {
+extension CoordinatorDelegateProxy: ParentCoordinator {
+    func coordinatorDidFinish(_ child: Coordinator) {
         interceptedSelector(
-            #selector(ParentFlowCoordinator.coordinatorDidFinish(_:)),
+            #selector(ParentCoordinator.coordinatorDidFinish(_:)),
             arguments: [child]
         )
     }
